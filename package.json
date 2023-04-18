@@ -1,7 +1,7 @@
 {
-    "name": "@minutemailer/library",
+    "name": "@minutemailer/select",
     "version": "0.0.1",
-    "description": "A template for library creation",
+    "description": "Headless select box for React with fuzzy search and keyboard navigation",
     "source": "src/index.js",
     "main": "dist/main.js",
     "module": "dist/module.js",
@@ -40,8 +40,10 @@
         "parcel": "^2.8.3",
         "prettier": "^2.8.7",
         "process": "^0.11.10",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0",
         "vitest": "^0.29.8"
+    },
+    "peerDependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
     }
 }
