@@ -15,10 +15,12 @@ function search(query, target) {
 export default function fuzzySearch(options, query) {
     return !query || !query.length
         ? options
-        : options.filter((o) =>
-              search(
-                  query.toLowerCase(),
-                  `${o.name} ${o.group || ''}`.trim().toLowerCase(),
-              ),
-          );
+        : options
+              .filter((o) =>
+                  search(
+                      query.toLowerCase(),
+                      `${o.name} ${o.group || ''}`.trim().toLowerCase(),
+                  ),
+              )
+              .map((o, index) => ({ ...o, index }));
 }

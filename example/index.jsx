@@ -4,27 +4,81 @@ import '@minutemailer/facade/styles/theme.scss';
 import '@minutemailer/facade/styles/foundation.css';
 import Button from '@minutemailer/facade/components/Button';
 import Stack from '@minutemailer/facade/components/Stack';
-import { useSelect } from '../src';
-import { useMemo, useState } from 'react';
-import Input from '@minutemailer/facade/components/Input';
+import { useOptions, Select, useOption, useSearch, useHighlight } from '../src';
+import { useEffect, useRef, useState } from 'react';
 import Box from '@minutemailer/facade/components/Box';
+import Input from '@minutemailer/facade/components/Input';
+import countries from './data.json';
+
+function Option({ option }) {
+    const { props, isSelected, isHighlighted } = useOption(option);
+    const ref = useRef();
+
+    useEffect(() => {
+        if (ref.current && (isHighlighted || isSelected)) {
+            ref.current.scrollIntoView({
+                block: 'center',
+            });
+        }
+    }, [ref, isHighlighted, isSelected]);
+
+    return (
+        <Button
+            {...props}
+            color={isSelected ? 'primary' : 'secondary'}
+            ref={ref}
+        >
+            {isHighlighted && '👉'}
+            {option.name}
+        </Button>
+    );
+}
+
+function Options() {
+    const options = useOptions();
+
+    return (
+        <Stack
+            gap="xxs"
+            direction="vertical"
+            style={{ height: '160px', overflow: 'auto' }}
+        >
+            {options.map((option) => (
+                <Option key={option.value} option={option} />
+            ))}
+        </Stack>
+    );
+}
+
+function Search() {
+    const { q, onSearch } = useSearch();
+    const { onKeyUp, onKeyDown } = useHighlight();
+
+    return (
+        <Input
+            id="search"
+            placeholder="Search"
+            marginBottom="xxs"
+            value={q}
+            onChange={onSearch}
+            onKeyUp={onKeyUp}
+            onKeyDown={onKeyDown}
+        />
+    );
+}
+
+function SelectBox() {
+    const [value, setValue] = useState('foo');
+
+    return (
+        <Select options={countries} value={value}>
+            <Search />
+            <Options />
+        </Select>
+    );
+}
 
 function App() {
-    const [value, setValue] = useState('foo');
-    const sizes = useMemo(
-        () => [
-            { value: 's', name: 'Small' },
-            { value: 'm', name: 'Medium' },
-            { value: 'l', name: 'Large' },
-        ],
-        [],
-    );
-    const { snapshot, options, onSearch, onKeyDown, onKeyUp } = useSelect(
-        value,
-        sizes,
-        setValue,
-    );
-
     return (
         <Stack
             align="center"
@@ -34,37 +88,7 @@ function App() {
             gap
         >
             <Box width={2}>
-                <Input
-                    id="selectSearch"
-                    placeholder="Find size"
-                    value={snapshot.q}
-                    onChange={onSearch}
-                    onKeyDown={onKeyDown}
-                    onKeyUp={onKeyUp}
-                    marginBottom="xs"
-                />
-                <Stack direction="vertical" gap="xxs" expand width={100}>
-                    {options.map((option, i) => (
-                        <Button
-                            key={option.value}
-                            onClick={() => setValue(option.value)}
-                            variant={
-                                i === snapshot.highlighted ||
-                                snapshot.value === option.value
-                                    ? 'outline-color'
-                                    : 'outline'
-                            }
-                            color={
-                                snapshot.value === option.value &&
-                                i !== snapshot.highlighted
-                                    ? 'primary'
-                                    : 'secondary'
-                            }
-                        >
-                            {option.name}
-                        </Button>
-                    ))}
-                </Stack>
+                <SelectBox />
             </Box>
         </Stack>
     );

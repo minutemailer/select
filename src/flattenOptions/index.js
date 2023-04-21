@@ -11,5 +11,8 @@ export default function flattenOptions(options) {
         }
     });
 
-    return flatOptions;
+    return flatOptions.map((option, index) => ({
+        ...option,
+        index,
+    }));
 }
