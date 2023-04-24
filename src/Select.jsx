@@ -7,8 +7,10 @@ export default function Select({
     options: defaultOptions,
     onChange,
     children,
+    ...props
 }) {
     const [options, setOptions] = useState([]);
+    const [defaultFlatOptions, setDefaultFlatOptions] = useState([]);
     const [value, setValue] = useState(defaultValue);
     const [highlighted, setHighlighted] = useState(0);
     const onSetValue = useCallback(
@@ -20,11 +22,13 @@ export default function Select({
     );
 
     useEffect(() => {
-        setOptions(flattenOptions(defaultOptions));
+        const flattenedOptions = flattenOptions(defaultOptions);
+
+        setOptions(flattenedOptions);
+        setDefaultFlatOptions(flattenedOptions);
     }, [defaultOptions]);
 
     useEffect(() => {
-        console.log(defaultValue);
         setValue(defaultValue);
     }, [defaultValue]);
 
@@ -33,11 +37,13 @@ export default function Select({
             value={{
                 value,
                 defaultOptions,
+                defaultFlatOptions,
                 options,
                 setOptions,
                 setValue: onSetValue,
                 highlighted,
                 setHighlighted,
+                ...props,
             }}
         >
             {children}
