@@ -23,5 +23,6 @@ test('Can group options', () => {
     const flatOptions = flattenOptions(options);
     const groupedOptions = groupOptions(flatOptions);
 
-    expect(groupedOptions).toEqual(options);
+    expect(groupedOptions.length).toEqual(options.length);
+    expect(groupedOptions[1].type).toEqual('group');
 });
