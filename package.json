@@ -1,6 +1,6 @@
 {
     "name": "@minutemailer/select",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "description": "Headless select box for React with fuzzy search and keyboard navigation",
     "source": "src/index.js",
     "main": "dist/main.js",
