@@ -21,11 +21,13 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/minutemailer/utils.git"
+        "url": "git+https://github.com/minutemailer/select.git"
     },
     "keywords": [
         "javascript",
-        "library"
+        "select",
+        "react",
+        "fuzzy"
     ],
     "author": "Minutemailer",
     "license": "MIT",
