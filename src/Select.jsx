@@ -1,5 +1,5 @@
-import SelectContext from './SelectContext';
 import { useCallback, useEffect, useState } from 'react';
+import SelectContext from './SelectContext';
 import flattenOptions from './flattenOptions';
 
 export default function Select({
