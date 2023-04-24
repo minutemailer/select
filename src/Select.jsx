@@ -1,21 +1,30 @@
 import SelectContext from './SelectContext';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import flattenOptions from './flattenOptions';
 
 export default function Select({
     value: defaultValue,
     options: defaultOptions,
+    onChange,
     children,
 }) {
     const [options, setOptions] = useState([]);
     const [value, setValue] = useState(defaultValue);
     const [highlighted, setHighlighted] = useState(0);
+    const onSetValue = useCallback(
+        (newValue, option) => {
+            setValue(newValue);
+            onChange(newValue, option);
+        },
+        [onChange],
+    );
 
     useEffect(() => {
         setOptions(flattenOptions(defaultOptions));
     }, [defaultOptions]);
 
     useEffect(() => {
+        console.log(defaultValue);
         setValue(defaultValue);
     }, [defaultValue]);
 
@@ -26,7 +35,7 @@ export default function Select({
                 defaultOptions,
                 options,
                 setOptions,
-                setValue,
+                setValue: onSetValue,
                 highlighted,
                 setHighlighted,
             }}

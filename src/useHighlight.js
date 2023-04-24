@@ -32,7 +32,7 @@ export default function useHighlight(onEscape) {
                 const selected = options[highlighted];
 
                 if (selected) {
-                    setValue(selected.value);
+                    setValue(selected.value, selected);
                 }
             }
         },

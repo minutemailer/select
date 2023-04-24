@@ -7,7 +7,7 @@ export default function useOption(option) {
     const props = useMemo(
         () => ({
             value: option.value,
-            onMouseDown: () => setValue(option.value),
+            onMouseDown: () => setValue(option.value, option),
         }),
         [option],
     );

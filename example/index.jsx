@@ -5,7 +5,7 @@ import '@minutemailer/facade/styles/foundation.css';
 import Button from '@minutemailer/facade/components/Button';
 import Stack from '@minutemailer/facade/components/Stack';
 import { useOptions, Select, useOption, useSearch, useHighlight } from '../src';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Box from '@minutemailer/facade/components/Box';
 import Input from '@minutemailer/facade/components/Input';
 import countries from './data.json';
@@ -68,13 +68,22 @@ function Search() {
 }
 
 function SelectBox() {
-    const [value, setValue] = useState('foo');
+    const [value, setValue] = useState('');
+    const onChange = useCallback((newValue, option) => {
+        setValue(newValue);
+        console.log(option);
+    }, []);
 
     return (
-        <Select options={countries} value={value}>
-            <Search />
-            <Options />
-        </Select>
+        <>
+            <Select options={countries} value={value} onChange={onChange}>
+                <Search />
+                <Options />
+            </Select>
+            <Button marginTop variant="outline" onClick={() => setValue('')}>
+                Reset value
+            </Button>
+        </>
     );
 }
 
