@@ -1,7 +1,8 @@
 export { default as SelectContext } from './SelectContext';
 export { default as Select } from './Select';
-export { default as useOptions } from './useOptions';
 export { default as useSearch } from './useSearch';
 export { default as useOption } from './useOption';
-export { default as useHighlight } from './useHighlight';
-export { default as useSelect } from './useSelect';
+export { default as useKeyboard } from './useKeyboard';
+export { default as useSelector } from './useSelector';
+export { default as useStore } from './useStore';
+export { default as createStore } from './createStore';

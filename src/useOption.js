@@ -1,20 +1,16 @@
-import { useContext, useMemo } from 'react';
-import { SelectContext } from './index';
+import useSelector from './useSelector';
+import useStore from './useStore';
 
 export default function useOption(option) {
-    const { value, setValue, highlighted } = useContext(SelectContext);
-
-    const props = useMemo(
-        () => ({
-            value: option.value,
-            onMouseDown: () => setValue(option.value, option),
-        }),
-        [option],
-    );
+    const { dispatch } = useStore();
+    const { value, highlighted } = useSelector((state) => ({
+        value: state.value,
+        highlighted: state.highlighted,
+    }));
 
     return {
         isSelected: value === option.value,
         isHighlighted: highlighted === option.index,
-        props,
+        onMouseDown: () => dispatch({ type: 'SET_VALUE', value: option.value }),
     };
 }

@@ -1,21 +1,17 @@
-import { useCallback, useContext, useState } from 'react';
-import SelectContext from './SelectContext';
-import fuzzySearch from './fuzzySearch';
-import flattenOptions from './flattenOptions';
+import { useCallback } from 'react';
+import useSelector from './useSelector';
+import useStore from './useStore';
 
-export default function useSearch(defaultQuery = '') {
-    const [q, setQ] = useState(defaultQuery);
-    const { defaultOptions, setOptions } = useContext(SelectContext);
-    const onSearch = useCallback(
-        (str) => {
-            setQ(str);
-            setOptions(fuzzySearch(flattenOptions(defaultOptions), str));
-        },
-        [defaultOptions],
+export default function useSearch() {
+    const q = useSelector((state) => state.q);
+    const { dispatch } = useStore();
+    const search = useCallback(
+        (str) => dispatch({ type: 'FILTER', value: str }),
+        [],
     );
 
     return {
         q,
-        onSearch,
+        search,
     };
 }

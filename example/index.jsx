@@ -4,14 +4,15 @@ import '@minutemailer/facade/styles/theme.scss';
 import '@minutemailer/facade/styles/foundation.css';
 import Button from '@minutemailer/facade/components/Button';
 import Stack from '@minutemailer/facade/components/Stack';
-import { useOptions, Select, useOption, useSearch, useHighlight } from '../src';
+import { useOptions, Select, useOption, useSearch, useKeyboard } from '../src';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Box from '@minutemailer/facade/components/Box';
 import Input from '@minutemailer/facade/components/Input';
 import countries from './data.json';
+import useSelector from '../src/useSelector';
 
 function Option({ option }) {
-    const { props, isSelected, isHighlighted } = useOption(option);
+    const { onMouseDown, isSelected, isHighlighted } = useOption(option);
     const ref = useRef();
 
     useEffect(() => {
@@ -24,7 +25,8 @@ function Option({ option }) {
 
     return (
         <Button
-            {...props}
+            onMouseDown={onMouseDown}
+            tabIndex={-1}
             color={isSelected ? 'primary' : 'secondary'}
             ref={ref}
         >
@@ -35,7 +37,7 @@ function Option({ option }) {
 }
 
 function Options() {
-    const options = useOptions();
+    const options = useSelector((state) => state.options);
 
     return (
         <Stack
@@ -51,8 +53,8 @@ function Options() {
 }
 
 function Search() {
-    const { q, onSearch } = useSearch();
-    const { onKeyUp, onKeyDown } = useHighlight();
+    const { q, search } = useSearch();
+    const { onKeyUp, onKeyDown } = useKeyboard();
 
     return (
         <Input
@@ -60,7 +62,7 @@ function Search() {
             placeholder="Search"
             marginBottom="xxs"
             value={q}
-            onChange={onSearch}
+            onChange={search}
             onKeyUp={onKeyUp}
             onKeyDown={onKeyDown}
         />
@@ -68,7 +70,7 @@ function Search() {
 }
 
 function SelectBox() {
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState('SE');
     const onChange = useCallback((newValue, option) => {
         setValue(newValue);
         console.log(option);

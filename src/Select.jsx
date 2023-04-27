@@ -1,51 +1,46 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import SelectContext from './SelectContext';
 import flattenOptions from './flattenOptions';
+import createStore from './createStore';
+import { initialState, reducer } from './store';
+import groupOptions from './groupOptions';
 
 export default function Select({
     value: defaultValue,
     options: defaultOptions,
     onChange,
     children,
-    ...props
 }) {
-    const [options, setOptions] = useState([]);
-    const [defaultFlatOptions, setDefaultFlatOptions] = useState([]);
-    const [value, setValue] = useState(defaultValue);
-    const [highlighted, setHighlighted] = useState(0);
-    const onSetValue = useCallback(
-        (newValue, option) => {
-            setValue(newValue);
-            onChange(newValue, option);
-        },
-        [onChange],
-    );
-
-    useEffect(() => {
+    const store = useMemo(() => {
         const flattenedOptions = flattenOptions(defaultOptions);
 
-        setOptions(flattenedOptions);
-        setDefaultFlatOptions(flattenedOptions);
-    }, [defaultOptions]);
+        return createStore(
+            {
+                ...initialState,
+                options: groupOptions(flattenedOptions),
+                flatOptions: flattenedOptions,
+                defaultFlatOptions: flattenedOptions,
+                value: defaultValue,
+                onChange,
+            },
+            reducer,
+        );
+    }, []);
 
     useEffect(() => {
-        setValue(defaultValue);
+        store.dispatch({
+            type: 'SET_VALUE',
+            value: defaultValue,
+            silent: true,
+        });
     }, [defaultValue]);
 
+    useEffect(() => {
+        store.dispatch({ type: 'SET_OPTIONS', value: defaultOptions });
+    }, [defaultOptions]);
+
     return (
-        <SelectContext.Provider
-            value={{
-                value,
-                defaultOptions,
-                defaultFlatOptions,
-                options,
-                setOptions,
-                setValue: onSetValue,
-                highlighted,
-                setHighlighted,
-                ...props,
-            }}
-        >
+        <SelectContext.Provider value={store}>
             {children}
         </SelectContext.Provider>
     );
