@@ -27,7 +27,7 @@ export function reducer(state, action) {
     }
 
     if (action.type === 'SET_VALUE') {
-        const update = { value: action.value };
+        const update = { value: action.value, q: '' };
 
         if (isValidValue(update.value) && state.flatOptions.length) {
             update.option = state.flatOptions.find(
@@ -35,6 +35,9 @@ export function reducer(state, action) {
             );
 
             update.highlighted = update.option.index;
+        } else {
+            update.option = null;
+            update.highlighted = 0;
         }
 
         if (state.onChange && !action.silent) {
