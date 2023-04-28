@@ -34,7 +34,9 @@ export function reducer(state, action) {
                 (option) => option.value === update.value,
             );
 
-            update.highlighted = update.option.index;
+            if (update.option) {
+                update.highlighted = update.option.index;
+            }
         } else {
             update.option = null;
             update.highlighted = 0;
