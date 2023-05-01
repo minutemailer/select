@@ -21,9 +21,9 @@ const options = [
 ];
 
 function SelectBox() {
-    const options = useOptions();
-    const { q, onSearch } = useSearch();
-    const { onKeyUp, onKeyDown } = useHighlight();
+    const options = useSelector((state) => state.options);
+    const { q, search } = useSearch();
+    const { onKeyUp, onKeyDown } = useKeyboard();
     
     return ...;
 }
@@ -32,7 +32,7 @@ function App() {
     const [value, setValue] = useState('1');
     
     return (
-        <Select options={options} value={value}><SelectBox /></Select>
+        <Select options={options} value={value} onChange={setState}><SelectBox /></Select>
     );
 };
 ```
