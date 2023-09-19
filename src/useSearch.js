@@ -9,9 +9,11 @@ export default function useSearch() {
         (str) => dispatch({ type: 'FILTER', value: str }),
         [],
     );
+    const clear = useCallback(() => dispatch({ type: 'CLEAR_FILTER' }), []);
 
     return {
         q,
         search,
+        clear,
     };
 }
