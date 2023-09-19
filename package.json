@@ -36,7 +36,7 @@
     },
     "homepage": "https://github.com/minutemailer/library#readme",
     "devDependencies": {
-        "@minutemailer/facade": "^0.3.2",
+        "@minutemailer/facade": "^0.3.4",
         "@parcel/transformer-sass": "^2.9.3",
         "@vitest/coverage-c8": "^0.29.8",
         "parcel": "^2.9.3",
