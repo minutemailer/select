@@ -93,5 +93,15 @@ export function reducer(state, action) {
         };
     }
 
+    if (action.type === 'CLEAR_FILTER') {
+        return {
+            ...state,
+            q: '',
+            options: groupOptions(state.defaultFlatOptions),
+            flatOptions: state.defaultFlatOptions,
+            highlighted: 0,
+        };
+    }
+
     return state;
 }
