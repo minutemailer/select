@@ -4,7 +4,7 @@ import '@minutemailer/facade/styles/theme.scss';
 import '@minutemailer/facade/styles/foundation.css';
 import Button from '@minutemailer/facade/components/Button';
 import Stack from '@minutemailer/facade/components/Stack';
-import { useOptions, Select, useOption, useSearch, useKeyboard } from '../src';
+import { Select, useOption, useSearch, useKeyboard, useStore } from '../src';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Box from '@minutemailer/facade/components/Box';
 import Input from '@minutemailer/facade/components/Input';
@@ -55,6 +55,10 @@ function Options() {
 function Search() {
     const { q, search } = useSearch();
     const { onKeyUp, onKeyDown } = useKeyboard();
+    const { dispatch } = useStore();
+    const { option } = useSelector((state) => ({
+        option: state.option,
+    }));
 
     return (
         <Input
@@ -65,6 +69,9 @@ function Search() {
             onChange={search}
             onKeyUp={onKeyUp}
             onKeyDown={onKeyDown}
+            onFocus={() =>
+                dispatch({ type: 'SET_HIGHLIGHTED', value: option.index })
+            }
         />
     );
 }

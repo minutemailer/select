@@ -52,6 +52,14 @@ export function reducer(state, action) {
         };
     }
 
+    if (action.type === 'SET_HIGHLIGHTED') {
+        console.log(action.value);
+        return {
+            ...state,
+            highlighted: action.value,
+        };
+    }
+
     if (action.type === 'HIGHLIGHT') {
         return {
             ...state,
