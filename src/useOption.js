@@ -11,6 +11,10 @@ export default function useOption(option) {
     return {
         isSelected: value === option.value,
         isHighlighted: highlighted === option.index,
-        onMouseDown: () => dispatch({ type: 'SET_VALUE', value: option.value }),
+        onMouseDown: (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            dispatch({ type: 'SET_VALUE', value: option.value });
+        },
     };
 }

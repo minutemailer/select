@@ -97,6 +97,12 @@ function SelectBox() {
 }
 
 function App() {
+    useEffect(() => {
+        document.body.addEventListener('mousedown', () => {
+            console.log('mousedown');
+        });
+    }, []);
+
     return (
         <Stack
             align="center"
