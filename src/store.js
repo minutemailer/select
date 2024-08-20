@@ -52,6 +52,13 @@ export function reducer(state, action) {
         };
     }
 
+    if (action.type === 'SET_ON_CHANGE') {
+        return {
+            ...state,
+            onChange: action.value,
+        };
+    }
+
     if (action.type === 'SET_HIGHLIGHTED') {
         return {
             ...state,

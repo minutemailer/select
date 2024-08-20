@@ -39,6 +39,10 @@ export default function Select({
         store.dispatch({ type: 'SET_OPTIONS', value: defaultOptions });
     }, [defaultOptions]);
 
+    useEffect(() => {
+        store.dispatch({ type: 'SET_ON_CHANGE', value: onChange });
+    }, [onChange]);
+
     return (
         <SelectContext.Provider value={store}>
             {children}
